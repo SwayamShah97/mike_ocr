@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+.button2{
+    background-color: white;
+    color: black;
+    border: 2px solid #e60000;
+}
+.button2:hover {
+    background-color: #e60000;
+    color: white;
+}
+body{
+        background-image: url("background2.jpg");
+        background-repeat:no-repeat;
+}
+</style>
+</head>
+<body>
+<ul>
+  <li><a href="{{ url_for('launch') }}">Home</a></li>
+  <li><a href="https://web.telegram.org/#/im?p=@Mike2020_bot">Contact</a></li>
+  <li><a href="{{ url_for('about') }}">About</a></li>
+</ul>
+<center>
+  <h4 style="font-size: 70px;font-family: OCR A Std, monospace">Image to text Converter</h4>
+  <form action="/file_upload" method="post" enctype=multipart/form-data>
+    <input type="file" value="Upload PDF" name="file_name" class="button button2"/><br><br><br><br>
+    <button type="submit" value="Submit" class="button button1">Submit</button>
+</form>
+</center>
+
+</body>
+</html>
