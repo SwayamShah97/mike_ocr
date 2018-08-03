@@ -4,7 +4,7 @@ import sqlite3
 import os
 import pyttsx3
 
-UPLOAD_FILE_PATH = '/home/swayam/Desktop/mike/mike_ocr'
+UPLOAD_FILE_PATH = '/home/swayam/Desktop/mike/mike_ocr/storage'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
