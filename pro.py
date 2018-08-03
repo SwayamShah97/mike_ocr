@@ -4,11 +4,11 @@ import sqlite3
 import os
 import pyttsx3
 
-UPLOAD_FILE_PATH = '/home/swayam/Desktop/mike/storage'
+UPLOAD_FILE_PATH = '/home/swayam/Desktop//mike/mike_ocr'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/storage")
 app.config['UPLOAD_FILE_PATH'] = UPLOAD_FILE_PATH
 
 
@@ -26,38 +26,42 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/img_to_text", methods=['POST'])
-def product_create():
-    file_name = request.form['file_name']
-    #print(str(file_name))
+def img_file_to_text(file_to_read):
     from PIL import Image
     import pytesseract
-    im = Image.open(file_name)
-    text = pytesseract.image_to_string(im, lang = 'eng')
+    im = Image.open(file_to_read)
+    text = pytesseract.image_to_string(im, lang='eng')
     print(text)
+    return text
+
+
+@app.route("/img_to_text", methods=['POST'])
+def img_to_text():
+    file_name = request.form['file_name']
+    text = img_file_to_text(file_name)
     return render_template("asd.html", msg=text)
 
 
-@app.route("/text_to_voice", methods=['POST','GET'])
-def product(file_name):
-    # file_name = request.form['file_name']
-    # print(str(file_name))
-    from PIL import Image
-    import pytesseract
-    from gtts import gTTS
-    import os
-
-    im = Image.open(file_name)
-
-    gg = pytesseract.image_to_string(im, lang='eng')
-
-    print(gg)
-
-    engine = pyttsx3.init()
-    engine.setProperty('voice','english+f3')
-    engine.setProperty('rate',150)
-    engine.say(gg)
-    engine.runAndWait()
+# @app.route("/text_to_voice", methods=['POST','GET'])
+# def product(file_name):
+#     # file_name = request.form['file_name']
+#     # print(str(file_name))
+#     from PIL import Image
+#     import pytesseract
+#     from gtts import gTTS
+#     import os
+#
+#     im = Image.open(file_name)
+#
+#     gg = pytesseract.image_to_string(im, lang='eng')
+#
+#     print(gg)
+#
+#     engine = pyttsx3.init()
+#     engine.setProperty('voice','english+f3')
+#     engine.setProperty('rate',150)
+#     engine.say(gg)
+#     engine.runAndWait()
 
     #tts = gTTS(text=gg)
     #tts.save("img_text.mp3")
@@ -82,13 +86,12 @@ def store():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FILE_PATH'], filename))
-            return redirect(url_for('storing_file', filename=filename))
-    return 'successful'
+            img = storing_file(filename)
+            msg = img_file_to_text(filename)
+            return render_template("asd.html", msg=msg, img=img)
 
 
-@app.route('/abc/<filename>')
 def storing_file(filename):
-    product(filename)
     return send_from_directory(app.config['UPLOAD_FILE_PATH'],
                                filename)
 
