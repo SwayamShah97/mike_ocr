@@ -6,7 +6,7 @@ click==6.7
 gTTS==2.0.1
 gTTS-token==1.1.1
 idna==2.7
-Pillow==5.2.0
+Pillow==6.2.0
 pytesseract==0.2.4
 requests==2.19.1
 six==1.11.0
